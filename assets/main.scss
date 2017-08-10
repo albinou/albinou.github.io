@@ -1,0 +1,38 @@
+---
+# Import the minima SCSS stylesheet and add customization
+---
+
+$content-width:    1200px;
+$brand-color:      #29a3a3;
+
+@import "minima";
+
+$top-bar-background-color: #333333;
+
+.site-header {
+  border-top: unset;
+  border-bottom: unset;
+  background-color: $top-bar-background-color;
+  min-height: unset;
+}
+
+.site-title {
+  font-weight: unset;
+  letter-spacing: unset;
+  &,
+  &:visited {
+    color: $background-color;
+  }
+}
+
+.site-nav {
+  background-color: $top-bar-background-color;
+
+  .menu-icon > svg > path {
+    fill: $background-color;
+  }
+
+  .trigger .page-link {
+    color: $background-color;
+  }
+}
