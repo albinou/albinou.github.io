@@ -9,6 +9,10 @@ $brand-color:      #29a3a3;
 
 $top-bar-background-color: #333333;
 
+
+/**
+ * Site header
+ */
 .site-header {
   border-top: unset;
   border-bottom: unset;
@@ -35,4 +39,12 @@ $top-bar-background-color: #333333;
   .trigger .page-link {
     color: $background-color;
   }
+}
+
+
+/**
+ * Site footer
+ */
+.site-footer {
+  border-top-color: $grey-color;
 }
