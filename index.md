@@ -4,3 +4,7 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
 ---
+
+Patience, j'ai ouvert ce blog en août 2017. Les articles vont arriver doucement :)
+
+Voici le premier article :
