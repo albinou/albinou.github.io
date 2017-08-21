@@ -46,5 +46,13 @@ $top-bar-background-color: #333333;
  * Site footer
  */
 .site-footer {
-  border-top-color: $grey-color;
+  padding-top: 10px;
+
+  div {
+    text-align: center;
+  }
+
+  .license {
+    font-size: x-small;
+  }
 }
