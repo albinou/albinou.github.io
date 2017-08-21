@@ -1,2 +1,2 @@
 # albinou.github.io
-Personnal blog (French)
+Personal blog (French)
