@@ -27,6 +27,9 @@ $top-bar-background-color: #333333;
   &:visited {
     color: $background-color;
   }
+  &:hover {
+    color: $brand-color;
+  }
 }
 
 .site-nav {
@@ -37,7 +40,13 @@ $top-bar-background-color: #333333;
   }
 
   .trigger .page-link {
-    color: $background-color;
+    &,
+    &:visited {
+      color: $background-color;
+    }
+    &:hover {
+      color: $brand-color;
+    }
   }
 }
 
