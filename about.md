@@ -1,18 +1,24 @@
 ---
 layout: page
-title: About
+title: À propos
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+### Quis suis-je ?
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Je suis un passionné de technologies et de logiciel libre.
+Dans mon temps libre, je m'auto-héberge et je commence à m'intéresser à la
+domotique.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+Pour en savoir plus : <http://albin.kauff.org>.
 
+### Comment est écrit ce blog ?
 
-[jekyll-organization]: https://github.com/jekyll
+Ce blog est généré à l'aide de [Jekyll](https://jekyllrb.com/).
+J'ai utilisé le thème [Minima](https://github.com/jekyll/minima) que j'ai
+personnalisé.
+C'est donc très basic et sommaire mais plainement suffisant pour les quelques
+articles qui se trouvent sur ce blog :)
+
+Ce blog est hébergé grâce aux [GitHub pages](https://pages.github.com/).
+Le code source de celui-ci se trouve [ici](https://github.com/albinou/albinou.github.io).
