@@ -11,6 +11,24 @@ $top-bar-background-color: #333333;
 
 
 /**
+ * Base style
+ */
+a {
+  color: darken($brand-color, 15%);
+  text-decoration: none;
+
+  &:visited {
+    color: darken($brand-color, 22%);
+  }
+
+  &:hover {
+    color: darken($brand-color, 22%);
+    text-decoration: underline;
+  }
+}
+
+
+/**
  * Site header
  */
 .site-header {
