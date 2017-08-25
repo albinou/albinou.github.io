@@ -14,16 +14,15 @@ $top-bar-background-color: #333333;
  * Base style
  */
 a {
-  color: darken($brand-color, 15%);
+  color: darken($brand-color, 2%);
   text-decoration: none;
 
   &:visited {
-    color: darken($brand-color, 22%);
+    color: darken($brand-color, 15%);
   }
 
   &:hover {
-    color: darken($brand-color, 22%);
-    text-decoration: underline;
+    color: darken($brand-color, 15%);
   }
 }
 
