@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Hello world!"
-date:   2017-08-24
+author: Albin Kauffmann
 ---
 
 Ou « **Bonjour le monde !** » devrais-je écrire ?
