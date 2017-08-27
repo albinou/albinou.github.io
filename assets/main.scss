@@ -82,13 +82,3 @@ a {
     font-size: x-small;
   }
 }
-
-
-/**
- * Site footer
- */
-#disqus_thread {
-  background-color: lighten($grey-color, 45%);
-  border: 2px solid $text-color;
-  padding: 10px;
-}
