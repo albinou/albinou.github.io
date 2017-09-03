@@ -1,0 +1,32 @@
+---
+# Import the minima SCSS stylesheet and add customization
+---
+
+$content-width:    1200px;
+$brand-color:      #29a3a3;
+
+@import "minima";
+
+$top-bar-background-color: #333333;
+
+$base-color:            $brand-color;
+$warning-color:         orange;
+$danger-color:          red;
+$border-color:          black;
+$border-radius:         0.25em;
+$monospace-font-family: "Courier New", Courier, monospace;
+
+/* Forms */
+$form-background: mix(#fff, $border-color, 50%);
+$form-border-color: $border-color;
+$form-border-color-hover: mix(#000, $border-color, 10%);
+$form-border-color-focus: $base-color;
+$form-border-radius: $border-radius;
+$form-box-shadow: inset 0 1px 3px hsla(0, 0%, 0%, 0.06);
+$form-box-shadow-focus: $form-box-shadow, 0 0 5px rgba(mix(#000, $form-border-color-focus, 10%), 0.7);
+$form-font-family: $base-font-family;
+$form-font-size: $base-font-size;
+
+@import "comments";
+@import "forms";
+@import "mylayout";

@@ -33,6 +33,9 @@ plugins:
 minima:
   date_format: "%A %-d %B %Y"
 
+sass:
+  sass_dir: assets/stylesheets
+
 # Staticman comments (full configuration in staticman.yml)
 staticman:
   branch: "master"
