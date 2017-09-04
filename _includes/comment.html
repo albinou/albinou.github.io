@@ -21,7 +21,10 @@
   <div class="comment-timestamp">
     {% if include.date %}
       {% if include.index %}<a href="#comment{% if r %}{{ index | prepend: '-' }}{% else %}{{ include.index | prepend: '-' }}{% endif %}" title="Permalink to this comment">{% endif %}
-      <time datetime="{{ include.date | date_to_xmlschema }}">{{ include.date | date: '%B %d, %Y' }}</time>
+      {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+      {% assign date_english = page.date | date: date_format %}
+      {% include date-french.html %}
+      <time datetime="{{ include.date | date_to_xmlschema }}">{{ date_french }}</time>
       {% if include.index %}</a>{% endif %}
     {% endif %}
   </div>
@@ -30,7 +33,7 @@
   </div>
   {% unless include.replying_to != 0 or page.comments_locked == true %}
     <div class="comment-reply">
-      <a rel="nofollow" href="#comment-{{ include.index }}" onclick="return addComment.moveForm('comment-{{ include.index }}', '{{ include.index }}', 'respond', '{{ page.slug }}')">{% include icon-reply.html %} Reply to {{ include.name }}</a>
+      <a rel="nofollow" href="#comment-{{ include.index }}" onclick="return addComment.moveForm('comment-{{ include.index }}', '{{ include.index }}', 'respond', '{{ page.slug }}')">{% include icon-reply.html %} Répondre à {{ include.name }}</a>
     </div>
   {% endunless %}
 </article>
