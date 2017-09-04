@@ -12,7 +12,7 @@
     {% endif %}
   </div>
   <h3 class="comment-author-name">
-    {% unless include.url == blank %}
+    {% unless include.url == empty %}
       <a rel="external nofollow" href="{{ include.url }}">{{ include.name }}</a>
     {% else %}
       {{ include.name }}
