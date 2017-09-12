@@ -38,7 +38,7 @@ sass:
 
 # Staticman comments (full configuration in staticman.yml)
 staticman:
-  branch: "master"
+  branch: "staticman-comments"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
