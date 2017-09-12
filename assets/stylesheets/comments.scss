@@ -2,9 +2,12 @@
    Comments
    ========================================================================== */
 
+.entry-comments {
+  @extend .post-content;
+}
+
 .comment {
   position: relative;
-  margin-bottom: 4em;
   padding-left: 4.5em;
   font-size: 0.8em;
 
