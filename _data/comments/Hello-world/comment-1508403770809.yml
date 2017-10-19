@@ -1,0 +1,9 @@
+_id: 489e2db0-b4ac-11e7-9670-3b6a9dc04145
+_parent: 'http://blog.kauff.org/2017/08/24/Hello-world.html'
+message: "Test #3 !\r\n\r\nJe test le nouveau système de commentaires. Il utilise staticman (https://staticman.net). Pour ceux que cela intéresse, j'ai trouvé 2 bons articles sur le sujet :\r\n\r\n* https://mademistakes.com/articles/jekyll-static-comments/\r\n* https://mademistakes.com/articles/improving-jekyll-static-comments/"
+name: Albin Kauffmann
+email: b079837ffec5e0d59c09360e0374f38f
+url: 'http://albin.kauff.org'
+replying_to: ''
+hidden: ''
+date: '2017-10-19T09:02:50.800Z'
