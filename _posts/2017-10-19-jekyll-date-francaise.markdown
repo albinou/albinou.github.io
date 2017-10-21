@@ -81,7 +81,7 @@ Minima).
 
 J'ai placé le code Liquid dans un fichier
 [_include/date-french.html](https://github.com/albinou/albinou.github.io/blob/3b08f660608b76e8ff4ea8525ec552ec5db49d3c/_includes/date-french.html)
-ensuite inclus par les pages qui nécessite l'affichage du date.
+ensuite inclus par les pages qui nécessite l'affichage d'une date.
 La modification de la page
 [home.html](https://github.com/albinou/albinou.github.io/blob/3b08f660608b76e8ff4ea8525ec552ec5db49d3c/_layouts/home.html)
 du thème Minima ressemble à ceci :
