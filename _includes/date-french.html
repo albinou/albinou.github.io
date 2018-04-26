@@ -98,6 +98,6 @@
 {% endfor %}
 
 {% assign date_french = date_french | strip %}
-{% assign first_char = date_french | truncate: 1, "" %}
+{% assign first_char = date_french | truncate: 1 %}
 {% assign first_char_upcase = first_char | upcase %}
 {% assign date_french = date_french | replace_first: first_char, first_char_upcase %}
