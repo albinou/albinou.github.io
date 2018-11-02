@@ -38,7 +38,8 @@
   {% endunless %}
 </article>
 
-{% assign replies = site.data.comments[page.slug] | where_exp: 'item', 'item.replying_to == include.index' %}
+{% capture i %}{{ include.index }}{% endcapture %}
+{% assign replies = site.data.comments[page.slug] | where_exp: 'item', 'item.replying_to == i' %}
 {% for reply in replies %}
   {% assign index       = forloop.index | prepend: '-' | prepend: include.index %}
   {% assign r           = reply.replying_to %}
