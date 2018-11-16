@@ -322,7 +322,7 @@ printf "\n"
 
 Le script ci-dessous permet de récupérer les informations d'une machine distante
 dont le nom est donné en argument.
-Pour cela, il exécute les commandes du tableau _INFO_COMMANDS_ et stock leurs
+Pour cela, il exécute les commandes du tableau _INFO_COMMANDS_ et stocke leurs
 résultats dans le tableau associatif _host_info_.
 
 ```bash

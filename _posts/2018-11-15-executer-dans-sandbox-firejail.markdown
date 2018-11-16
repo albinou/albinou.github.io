@@ -20,7 +20,7 @@ spéciaux de _/dev_, _/proc_ et _/sys_)
 * restreindre les protocoles réseaux
 
 La configuration et l'utilisation de _firejail_ est cependant très facile car
-cet outil est fourni avec des profiles prédéfinis.
+cet outil est fourni avec des profils prédéfinis.
 
 ## Installation de _firejail_
 
@@ -43,19 +43,19 @@ Hello world!
 Parent is shutting down, bye...
 ```
 
-## Profiles _firejail_
+## Profils _firejail_
 
 La configuration par défaut n'est pas très limitante.
 Elle n'a notamment aucune restriction sur l'espace disque de _$HOME_ qui peut
 contenir des données sensibles.
 
-Heureusement pour nous, _firejail_ fournit de nombreux profiles par défaut.
+Heureusement pour nous, _firejail_ fournit de nombreux profils par défaut.
 Ils se trouvent dans _/etc/firejail/_ et il en existe un notamment pour le
 navigateur _firefox_.
 Il suffit de lancer `firejail firefox` pour que cette configuration soit
 utilisée.
 Cette configuration permet notamment de ne donner accès qu'au répertoire
-_~/Downloads_ ansi qu'au répertoire _~/.mozilla_ contenant la configuration de
+_~/Downloads_ ainsi qu'au répertoire _~/.mozilla_ contenant la configuration de
 _firefox_.
 
 Pour valider que l'instance de _firefox_ est corrctement lancée dans une
@@ -71,7 +71,7 @@ albinou@pc:~$ firejail --list
 Pour que _firejail_ soit utilisé automatiquement (sans avoir besoin de
 l'indiquer sur la ligne de commande), il suffit de créer un lien symbolique vers
 _/usr/bin/firejail_ dans _/usr/local/bin/_ avec le nom du programme (qui
-doit être le même que le nom du profile) :
+doit être le même que le nom du profil) :
 
 ```bash
 albinou@pc:~$ sudo ln -s /usr/bin/firejail /usr/local/bin/firefox
