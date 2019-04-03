@@ -28,7 +28,7 @@ Mais malheureusement, cette suite n'est pas disponible dans les dépôts officie
 Dans cet article, je propose donc les étapes pour :
 
 * installer le paquet Debian précompilés par mes soins
-* la méthode que j'ai suivi pour créer ces paquets
+* la méthode que j'ai suivie pour créer ces paquets
 
 ## Installation sous Debian stretch
 
@@ -55,7 +55,7 @@ Pour tenter la version expérimentale (branche *master* de git), il est possible
 deb http://packages.kauff.org/debian/ stretch aseba-git
 ```
 
-Le processus n'étant pas automatique pour moi, je ne promet cependant pas de régulièrement rebuilder la branche *master*.
+Le processus n'étant pas automatique pour moi, je ne promets cependant pas de régulièrement rebuilder la branche *master*.
 
 ## Construction des paquets (HowTo)
 
