@@ -10,7 +10,7 @@ Je suis un passionné de technologies et de logiciel libre.
 Dans mon temps libre, je m'auto-héberge et je commence à m'intéresser à la
 domotique.
 
-Pour en savoir plus : <http://albin.kauff.org>.
+Pour en savoir plus : <https://albin.kauff.org>.
 
 ### Comment est écrit ce blog ?
 
