@@ -1,0 +1,131 @@
+---
+layout: post
+title:  "Utiliser socat avec n'importe quel type de socket"
+author: Albin Kauffmann
+---
+
+## Introduction à socat
+
+`socat` est un outil en ligne de commande du même type que `netcat`, mais il est tellement plus polyvalent !
+
+Ce programme (concaténation de `socket` et `cat`) est décrit sur le [site officiel](http://www.dest-unreach.org/socat) comme un relais à usages multiples.
+Des exemples parlent mieux qu'un long discours :
+
+**Connexion à un serveur TCP :**
+
+```bash
+# Avec netcat
+netcat <HOST> <PORT>
+# Avec socat
+socat TCP-CONNECT:<HOST>:<PORT> -
+```
+
+**Explication :**
+
+`socat` requière 2 arguments interchangeables (or cas spécifiques) représentant les 2 connexions à relayer.
+Ici :
+
+* `TCP-CONNECT:<HOST>:<PORT>` est la connexion vers le serveur
+* `-` représente l'entrée standard et la sortie standard (_stdin_ et _stdout_)
+
+**Création d'un serveur TCP écoutant sur le port _\<PORT\>_ :**
+
+```bash
+# Avec netcat
+netcat -l -p <PORT>
+# Avec socat
+socat TCP-LISTEN:<PORT> -
+```
+
+**Création d'un relais TCP ("proxy") entre 2 hôtes :**
+
+```bash
+# Avec socat
+socat TCP-LISTEN:<PORT1> TCP-CONNECT:<HOST2>:<PORT2>
+```
+
+**Explication :**
+
+Ce dernier exemple permet de recopier le contenu reçu sur le _PORT1_ vers le serveur _HOST2:PORT2_,
+mais également de recopier le contenu envoyé depuis _HOST2:PORT2_ vers le client connecté sur le _PORT1_.
+
+Nous venons de créer un serveur mandataire (dit "proxy" en anglais).
+Cette dernière commande laisse entrevoir les nombreuses possibilités offertes par `socat`.
+Pour plus d'informations, ne pas hésiter à lire le [man](http://www.dest-unreach.org/socat/doc/socat.html) (en anglais).
+
+## Socat peut faire bien plus que du TCP !
+
+Si `socat` gère parfaitement les domaines de communication `AF_INET` / `AF_INET6` (IPv4 / IPv6), il est aussi capable d'utiliser des sockets UNIX, des fichiers ou même d'appeler des programmes ... (et sans doute plus encore ?).
+
+Cet article s'intéresse uniquement aux sockets (IP ou UNIX).
+En C, ces sockets sont créés avec l'appel système suivant :
+
+```c
+int socket(int domain, int type, int protocol);
+```
+
+Lors de la création d'un socket, on spécifie donc le domaine (`AF_INET`, `AF_INET6` ou `AF_UNIX`),
+le type (plus de détails ci-dessous) et le protocole (valeur souvent omise et égale à 0).
+
+Le type peut notamment être :
+
+* `SOCK_STREAM` (connexion [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol))
+* `SOCK_DGRAM` (connexion [UDP](https://fr.wikipedia.org/wiki/User_Datagram_Protocol))
+* `SOCK_SEQPACKET` (connexion [SCTP](https://fr.wikipedia.org/wiki/Stream_Control_Transmission_Protocol))
+* `SOCK_DCCP` (connexion [DCCP](https://fr.wikipedia.org/wiki/Datagram_Congestion_Control_Protocol))
+
+La plupart de ces types de socket sont rendu facilement accessibles par socat.
+Voici quelques exemples :
+
+```bash
+# Connexion à un serveur TCP (STREAM)
+socat TCP-CONNECT:<HOST>:<PORT> -
+# Envoi de paquets UDP (DGRAM)
+socat UDP-DATAGRAM:<HOST>:<PORT> -
+# Connexion à un serveur SCTP (SEQPACKET)
+socat SCTP-CONNECT:<HOST>:<PORT> -
+...
+```
+
+## Utiliser un type de socket non défini dans socat
+
+Si on prête attention à la page de [man](http://www.dest-unreach.org/socat/doc/socat.html),
+il n'existe pas de "raccourcis" permettant de se connecter à un serveur DCCP ou de créer une socket UNIX en mode SEQPACKET.
+
+Il est cependant possible de créer des sockets génériques en forçant les valeurs `type` et `protocol` utilisées pour l'appel à `socket()`.
+
+Il nous faut tout d'abord récupérer la bonne valeur de type souhaité (nous laisserons le protocole à une valeur par défaut).
+Afin d'obtenir le type, je propose de directement parcourir les fichiers en-tête de votre distribution.
+
+Voici un exemple :
+
+**Recherche du type SEQPACKET :**
+
+```bash
+grep -r SEQPACKET /usr/include/sys /usr/include/bits
+# On trouve dans le résultat la ligne suivante :
+#   SOCK_SEQPACKET = 5
+```
+
+**Création d'un serveur UNIX en mode SEQPACKET :**
+
+```bash
+socat UNIX-LISTEN:/tmp/mysocket,type=5 -
+```
+
+**Connexion au serveur UNIX en mode SEQPACKET :**
+
+```bash
+socat UNIX-CONNECT:/tmp/mysocket,type=5 -
+```
+
+Pour aller plus, voici la page sur les [sockets génériques de socat](http://www.dest-unreach.org/socat/doc/socat-genericsocket.html) (anglais).
+
+## Ressources
+
+* Manuel de socat (anglais) : <http://www.dest-unreach.org/socat/doc/socat.html>
+* Page sur les sockets génériques de socat (anglais) : <http://www.dest-unreach.org/socat/doc/socat-genericsocket.html>
+* Manuel de la fonction socket() :
+  * anglais : <http://man7.org/linux/man-pages/man2/socket.2.html>
+  * français : <http://www.linux-france.org/article/man-fr/man2/socket-2.html>
+* Définition de `sock_type` dans le noyau Linux (cliquer sur "include/linux/net.h" une fois la page ouverte) : <https://elixir.bootlin.com/linux/latest/ident/sock_type>
