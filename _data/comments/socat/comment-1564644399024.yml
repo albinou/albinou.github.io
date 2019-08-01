@@ -1,0 +1,9 @@
+_id: b3382540-b42d-11e9-b05b-bd3bcc960d13
+_parent: 'http://blog.kauff.org/2019/07/31/socat.html'
+message: "socat fait partie de ces outils que j'ai désormais tout le temps sous la main… ne serait-ce que pour faire de la plomberie rapide entre les ports de mes conteneurs et ceux de ma machine physique :-)\r\n\r\nUne de ses nombreuses killer-features dont je peux plus me passer est le support de `PROXY:` pour faire passer n'importe quel protocole à travers un proxy HTTP (typiquement pour faire du SSH over HTTP, voire du [git over SSH over HTTP over HTTP+NTLM](https://gist.github.com/Arkanosis/741fbc266902ff903d1caefa58d1c4e0) quand on a vraiment pas de bol…). C'est tellement facile à mettre en place par rapport à une solution comme httptunnel que ça en a l'air presque magique."
+name: Jérémie Roquet
+email: befca3beccb86b89c945c82a21e0166c
+url: 'https://arkanosis.net/'
+replying_to: ''
+hidden: ''
+date: '2019-08-01T07:26:39.023Z'
