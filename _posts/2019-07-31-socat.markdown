@@ -22,7 +22,7 @@ socat TCP-CONNECT:<HOST>:<PORT> -
 
 **Explication :**
 
-`socat` requiert 2 arguments interchangeables (or cas spécifiques) représentant les 2 connexions à relayer.
+`socat` requiert 2 arguments interchangeables (hors cas spécifiques) représentant les 2 connexions à relayer.
 Ici :
 
 * `TCP-CONNECT:<HOST>:<PORT>` est la connexion vers le serveur
