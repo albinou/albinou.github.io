@@ -1,0 +1,9 @@
+_id: 6c233da0-6b86-11ea-9a65-3b090d6d2083
+_parent: 'http://blog.kauff.org/2020/03/19/runuser-and-capsh.html'
+message: "Super intéressant, merci\_! capsh va me simplifier la vie régulièrement maintenant\_; je regrette de ne pas l'avoir découvert avant :-)\r\n\r\nPetite interrogation de ma part sur le dernier exemple qui établit un tunnel SSH sur le port 80… Il s'agit d'un proxy TCP plutôt que HTTP, non\_?\r\n\r\nJ'attends le prochain article avec impatience, le confinement continue :-)"
+name: Jérémie Roquet
+email: befca3beccb86b89c945c82a21e0166c
+url: 'https://arkanosis.net'
+replying_to: ''
+hidden: ''
+date: '2020-03-21T15:12:47.487Z'
