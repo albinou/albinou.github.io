@@ -74,7 +74,7 @@
     {% when "Apr" %}
       {% assign date_french = date_french | append: "avr" %}
     {% when "May" %}
-      {% assign date_french = date_french | append: "mai" %}
+      {% comment %} Do nothing, it's already been done on long format {% endcomment %}
     {% when "Jun" %}
       {% assign date_french = date_french | append: "juin" %}
     {% when "Jul" %}
