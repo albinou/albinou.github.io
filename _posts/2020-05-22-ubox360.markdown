@@ -1,0 +1,280 @@
+---
+layout: post
+title:  "Utiliser une vielle manette à la place d'une manette de Xbox 360"
+author: Albin Kauffmann
+---
+
+<div markdown="1">
+
+![Trust joystick]({{ "/assets/images/2020-05-22-trust-joystick.png" | relative_url }})
+
+* TOC
+{:toc}
+
+</div>{: .float-right }
+
+Lors du confinement, j'ai ressorti une vielle manette des cartons.
+Pas si mal, la bête dispose de (voir photo à droite):
+- 2 axes x, y (avec un stick et un volant permettant de moduler la force de 0 à 255)
+- 10 boutons (valeur 0 et 1, 0 pour relâché et 1 pour pressé)
+
+Malgré tout, j'ai été confronté à des soucis de compatibilité avec des jeux créés pour utiliser une manette de Xbox 360.
+En effet, certains boutons était inutilisables, d'autres n'étaient pas au même endroit que sur une manette de Xbox.
+
+Après un aperçu de la manette Xbox 360, je présente ci-dessous 3 techniques qui existent sous Linux pour changer le "mapping" des touches et ainsi changer le rôle des boutons.
+
+Dans mon cas, je peux ainsi jouer aux jeux présents en Cloud Gaming sur [Blacknut](https://www.blacknut.com/fr).
+
+## Aperçu de la manette de Xbox 360
+
+La manette de Xbox360 est composée de :
+- 2 "sticks" (reconnus comme 4 axes)
+- 1 "pad" directionnel (reconnu comme 2 axes)
+- 9 boutons
+- 2 "triggers" (reconnus comme 2 axes)
+
+[![Xbox 360 controller](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/360_controller.svg/512px-360_controller.svg.png)](https://commons.wikimedia.org/wiki/File:360_controller.svg)
+
+Les 2 "triggers" sont en fait reconnus comme 2 axes par le système d'exploitation (Linux dans mon cas).
+Sur un jeux de voiture, cela permet de moduler la force de l'accélération ou du freinage.
+
+## Configuration SDL
+
+### En bref
+
+Pour un jeux développé avec la bibliothèque SDL, il est assez simple de configurer les mappings d'une manette.
+
+Pour cela, il faut exécuter le programme `controllermap`:
+
+![controllermap]({{ "/assets/images/2020-05-22-controllermap.png" | relative_url }})
+
+Cet utilitaire affiche à l'écran les boutons d'une manette Xbox 360 et demande à l'utilisateur de presser le bouton à faire correspondre à chaque touche.
+Il génère ensuite un fichier `gamecontrollerdb.txt` à placer dans le répertoire du jeux et le tour est joué !
+
+À noter : [Blacknut](https://www.blacknut.com/fr) semble être basé sur SDL mais je ne suis pas parvenu à utiliser cette méthode.
+
+### Installation de "controllermap"
+
+Les utilisateurs d'ArchLinux peuvent installer facilement controllermap depuis [AUR](https://aur.archlinux.org/packages/controllermap).
+Pour les autres, il faudra compiler le fichier [controllermap.c](http://hg.libsdl.org/SDL/raw-file/tip/test/controllermap.c).
+
+Une fois installé, il faut lancer la commande suivante pour rediriger la sortie dans le fichier `gamecontrollerdb.txt`:
+
+```bash
+controllermap 0 > gamecontrollerdb.txt
+```
+
+## Mapping des touches avec systemd-udev
+
+### En bref
+
+Il est possible de mapper les touches d'un périphérique d'entrée avec systemd-udev.
+Pour cela, il suffit de créer un fichier de mapping dans `/etc/udev/hwdb.d/` et de recharger la configuration systemd-udev.
+
+Ce mécanisme :
+- fonctionne pour n'importe quel type de périphérique d'entrée (manette, clavier, souris, ...)
+- fonctionne pour n'importe quelles applications (SDL, openGL, ...) car c'est une configuration bas-niveau
+- ne permet pas de changer le type d'événement (un appui sur un bouton ne peut pas devenir un évènement sur un axe)
+
+### Détectez les capacités d'une manette
+
+Considérons que le branchement de ma manette de jeux crée le périphérique `/dev/input/event11` ("input device").
+On peut généralement trouver ce chemin en listant les liens symboliques présents dans `/dev/input/by-id` :
+
+```bash
+shell> ls -l /dev/input/by-id/usb-0458_100a-event-joystick
+lrwxrwxrwx 1 root root 10 Jun 29 22:24 /dev/input/by-id/usb-0458_100a-event-joystick -> ../event11
+```
+
+Pour en savoir plus sur le périphérique, il est possible d'afficher le contenu des fichiers contenus dans `/sys/class/input/event11/device/id/` :
+
+```bash
+shell> ls -la /sys/class/input/event11/device/id/
+bustype  product  vendor  version
+```
+
+Pour afficher les événements du périphérique, il faut utiliser `evtest` :
+
+```bash
+shell> evtest /dev/input/event11
+Input driver version is 1.0.1
+Input device ID: bus 0x3 vendor 0x458 product 0x100a version 0x100
+Input device name: "HID 0458:100a"
+Supported events:
+  Event type 0 (EV_SYN)
+  Event type 1 (EV_KEY)
+    Event code 304 (BTN_SOUTH)
+    Event code 305 (BTN_EAST)
+    Event code 306 (BTN_C)
+    Event code 307 (BTN_NORTH)
+    Event code 308 (BTN_WEST)
+    Event code 309 (BTN_Z)
+    Event code 310 (BTN_TL)
+    Event code 311 (BTN_TR)
+    Event code 312 (BTN_TL2)
+    Event code 313 (BTN_TR2)
+  Event type 3 (EV_ABS)
+    Event code 0 (ABS_X)
+      Value    129
+      Min        0
+      Max      255
+      Flat      15
+    Event code 1 (ABS_Y)
+      Value    129
+      Min        0
+      Max      255
+      Flat      15
+  Event type 4 (EV_MSC)
+    Event code 4 (MSC_SCAN)
+Properties:
+Testing ... (interrupt to exit)
+Event: time 1593462939.076514, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90001
+Event: time 1593462939.076514, type 1 (EV_KEY), code 304 (BTN_SOUTH), value 1
+Event: time 1593462939.076514, -------------- SYN_REPORT ------------
+Event: time 1593462939.196331, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90001
+Event: time 1593462939.196331, type 1 (EV_KEY), code 304 (BTN_SOUTH), value 0
+Event: time 1593462939.196331, -------------- SYN_REPORT ------------
+Event: time 1593462940.100397, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90002
+Event: time 1593462940.100397, type 1 (EV_KEY), code 305 (BTN_EAST), value 1
+Event: time 1593462940.100397, -------------- SYN_REPORT ------------
+Event: time 1593462940.172482, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90002
+Event: time 1593462940.172482, type 1 (EV_KEY), code 305 (BTN_EAST), value 0
+Event: time 1593462940.172482, -------------- SYN_REPORT ------------
+```
+
+On y aperçoit que la manette supporte :
+- 2 axes ABS_X et ABS_Y
+- 10 boutons (EV_KEY)
+
+Et lorsque l'on presse les boutons, `evtest` affiche notamment :
+- l'`event code` envoyé à l'application utilisant la manette (304 = BTN_SOUTH, 305 = BTN_EAST, ...) dont les valeurs se trouvent dans le fichier en-tête `/usr/include/linux/input-event-codes.h`)
+- le `scan code` (90001, 90002, ...) qui est le code envoyé par le périphérique
+
+### Création de la configuration systemd-udev
+
+Commencer par créer le fichier mapping suivant `/etc/udev/hwdb.d/70-keyboard.hwdb` :
+
+```
+evdev:input:b0003v0458p100Ae0100-*
+ KEYBOARD_KEY_90001=btn_a
+ KEYBOARD_KEY_90002=btn_b
+ KEYBOARD_KEY_90003=btn_select
+ KEYBOARD_KEY_90004=btn_x
+ KEYBOARD_KEY_90005=btn_y
+ KEYBOARD_KEY_90006=btn_start
+ KEYBOARD_KEY_90007=btn_tl
+ KEYBOARD_KEY_90008=btn_tr
+ KEYBOARD_KEY_90009=btn_trigger_happy1
+ KEYBOARD_KEY_9000a=btn_trigger_happy2
+
+```
+
+Explications :
+- `b0003v0458p100Ae0100` identifie mon périphérique (cf valeurs présentes dans les fichiers de `/sys/class/input/event11/device/id/`) :
+  - `b0003` indique que c'est de l'USB
+  - `v0458` indique l'ID vendeur
+  - `p100A` indique l'ID produit
+  - `e0100` indique la version
+- les valeurs `90001` à `9000a` sont les "scan codes" des boutons que je souhaite "mapper"
+- les chaînes de caractère btn_a, btn_b, ... sont les "event codes" que je souhaite affecter aux boutons (cf `/usr/include/linux/input-event-codes.h` pour la liste des codes existants)
+
+Le nom du fichier `70-keyboard.hwdb` est important.
+Consultez les commentaires du fichier `/usr/lib/udev/hwdb.d/60-keyboard.hwdb` pour plus d'informations.
+
+Enfin, il faut recharcher la configuration systemd-udev avec les deux commandes suivants :
+
+```bash
+# Création de la base de données de mappings (fichier /dev/udev/hwdb.bin)
+shell> systemd-hwdb update
+# Application des nouveaux bindings au périphérique (évite de devoir rebrancher la manette)
+shell> udevadm trigger /dev/input/event11
+```
+
+## Émulation d'une nouvelle manette en espace utilisateur
+
+### En bref
+
+Avec la solution précédente, il est impossible de "mapper" des boutons sur les "triggers" de la manette Xbox 360.
+En effet, je souhaite faire correspondre les 2 boutons présents sous la manette aux axes des triggers de la manette Xbox.
+
+Ma solution a été de développer un programme:
+1. lisant les événements de ma manette (input device `/dev/input/event11`)
+1. faisant la conversion via un fichier de mapping au format SDL (fichier fourni par `controllermap`)
+1. écrivant les événements dans un nouveau "input device" virtuel (utilisation du driver Linux `uinput`)
+
+J'ai nommé ce programme `ubox360` (le "u" indiquant l'émulation utilisateur).
+
+### Installation de "ubox360"
+
+`ubox360` est un script python.
+Le plus simple est de l'installer via pip:
+
+```bash
+pip install ubox360
+```
+
+Avant d'exécuter `ubox360`, il est tout d'abord nécessaire de charger le driver `uinput`:
+
+```bash
+modprobe uinput
+```
+
+... mais il faut également effectuer une configuration des permissions.
+En effet:
+- `ubox360` doit pouvoir accéder à `/dev/uinput`
+- `ubox360` doit pouvoir créer un nouveau périphérique dans `/dev/input`
+- `ubox360` doit accéder à `/dev/input/event11` (input device de la manette) mais le jeux ne devrait pas y avoir accès afin d'éviter de lire les événements 2 fois (événements de la vraie manette + événements de la manette émulée)
+
+Afin d'avoir une configuration pérenne, je propose de configurer votre machine comme dans la section suivante.
+
+### Configuration de "ubox360"
+
+Avec votre éditeur texte favoris, taper les commandes suivantes :
+
+```bash
+# Ajouter un nouveau groupe pour /dev/uinput
+sudo groupadd --system uinput
+
+# Affecter ce groupe à /dev/uinput
+sudo VOTRE_EDITEUR_FAVORIS /etc/udev/rules.d/99-uinput.rules
+# Une fois dans l'éditeur, copier/coller cette ligne (sans le commentaire):
+# SUBSYSTEM=="misc", KERNEL=="uinput", GROUP="uinput", MODE="0660"
+
+# Mettre à jour les permissions de uinput
+sudo udevadm trigger /dev/uinput
+
+# Éviter que votre utilisateur puisse lire les événements de la manette
+sudo VOTRE_EDITEUR_FAVORIS /etc/udev/rules.d/70.1-uaccess.rules
+# Une fois dans l'éditeur, copier/coller cette ligne (sans le commentaire):
+# SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="?*", ATTRS{idVendor}=="0458", ATTRS{idProduct}=="100a", TAG-="uaccess"
+```
+
+Rebrancher la manette.
+
+### Lancer "ubox360"
+
+```bash
+sudo runuser --user=$USER --group=$USER --supp-group=input --supp-group=uinput -- ubox360 --controllerdb /PATH/TO/gamecontrollerdb.txt
+```
+
+Cette dernière commande devrait afficher quelque chose comme :
+```
+Info: Adding a new gamepad mapping:
+  ,-- device /dev/input/event11, name "HID 0458:100a", phys "usb-0000:00:14.0-9/input0"
+  '-> device /dev/input/event21, name "ubox360", phys "py-evdev-uinput"
+```
+
+Le périphérique d'entrées `/dev/input/event21` a donc été créé.
+À vous de jouer !
+
+## Ressources (en anglais)
+
+- <https://gitlab.com/albinou/python-ubox360>
+- <https://en.wikipedia.org/wiki/Xbox_360_controller>
+- <https://wiki.libsdl.org/CategoryGameController>
+- <https://github.com/gabomdq/SDL_GameControllerDB>
+- <https://pineight.com/mw/index.php?title=USB_game_controller>
+- <https://wiki.archlinux.org/index.php/Gamepad>
+- <https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes>
+- <https://wiki.archlinux.org/index.php/Keyboard_input#Identifying_scancodes>
+- <https://www.linux.org/threads/xbox-360-controller.11422/>
