@@ -73,7 +73,7 @@ groups=10(wheel),90(network),91(video),100(users)
 Guessed mode: UNCERTAIN (0)
 ```
 
-Enfin, voici un autre exemple d'utilisation de `capsh` qui ouvre un proxy http sur le port 80 pour rediriger les requêtes sur un serveur distant avec `ssh` :
+Enfin, voici un autre exemple d'utilisation de `capsh` qui ouvre un proxy TCP sur le port 80 afin de rediriger les requêtes HTTP sur un serveur distant :
 
 ```bash
 shell> sudo capsh --user=bob --inh=cap_net_bind_service --addamb=cap_net_bind_service -- -c 'ssh -NL localhost:80:remote:80 gateway'
