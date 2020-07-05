@@ -1,0 +1,9 @@
+_id: f2003f50-bed7-11ea-a475-834c35730aa2
+_parent: 'http://blog.kauff.org/kodi/2017/10/23/kodi-lecture-rapide.html'
+message: "Depuis la version 18 de Kodi (testé pour ma part avec Kodi 18.2), il est possible d'augmenter la vitesse de lecture jusque 2x. Pour cela, il fait créer le fichier `~/.kodi/userdata/advancedsettings.xml` avec le contenu suivant :\r\n\r\n    <advancedsettings version=\"1.0\">\r\n        <video>\r\n            <maxtempo>2.1</maxtempo>\r\n        </video>\r\n    </advancedsettings>\r\n\r\nMe concernant, je n'ai pour l'instant vu aucun soucis de performances sur un Wetek Play 1."
+name: Albin Kauffmann
+email: b079837ffec5e0d59c09360e0374f38f
+url: 'http://blog.kauff.org'
+replying_to: ''
+hidden: ''
+date: '2020-07-05T15:55:27.828Z'
