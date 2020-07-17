@@ -27,7 +27,7 @@ Mon objectif était de jouer aux jeux présents en Cloud Gaming sur [Blacknut](h
 Il m'a fallu envisager 3 techniques différentes afin de parvenir à mes fins.
 Je vous propose ici une série de 3 articles dans lesquels j'évoque :
 1. L'utilisation de `controllermap` pour un jeu SDL ([article ci-dessous](#configuration-sdl))
-1. Le mapping des touches avec `systemd-udev` (article à venir)
+1. Le mapping des touches avec `systemd-udev` ([voir l'article](../../../2020/07/18/systemd-udev.html))
 1. L'émulation d'une manette en espace utilisateur avec `ubox360` (article à venir)
 
 Après un aperçu de la manette Xbox 360, voici la première technique utilisant `controllermap`.
@@ -74,7 +74,7 @@ controllermap 0 > gamecontrollerdb.txt
 [Blacknut](https://www.blacknut.com/fr) semble être basé sur SDL mais je ne suis pas parvenu à utiliser cette méthode.
 Peut-être que la gestion des manettes n'utilise pas l'API de la bibliothèque SDL ? Difficile de savoir ...
 
-Bref, j'ai donc tenté une autre technique basée sur `systemd-udev` (article à venir).
+Bref, j'ai donc tenté une autre technique basée sur `systemd-udev` ([voir l'article](../../../2020/07/18/systemd-udev.html)).
 
 ## Ressources (en anglais)
 
