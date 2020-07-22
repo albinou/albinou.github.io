@@ -15,7 +15,7 @@ Voici la suite de ma série d'articles visant à utiliser une vielle manette à 
 
 Pour rappel, il m'a fallu envisager 3 techniques pour parvenir à mes fins :
 1. L'utilisation de `controllermap` pour un jeu SDL ([voir article](../../../2020/07/05/sdl-controllermap.html))
-1. Le mapping des touches avec `systemd-udev` ([article ci-dessous](#mapping-des-touches-avec-systemd-udev))
+1. Le mapping des touches avec `systemd-udev` ([article ci-dessous](#présentation))
 1. L'émulation d'une manette en espace utilisateur avec `ubox360` (article à venir)
 
 Je propose ci-dessous une méthode permettant de changer l'association des touches d'une manette de jeu.
