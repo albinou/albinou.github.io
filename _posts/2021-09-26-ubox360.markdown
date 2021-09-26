@@ -1,0 +1,107 @@
+---
+layout: post
+title:  "Émulation d'une manette Xbox 360 en espace utilisateur"
+author: Albin Kauffmann
+---
+
+<div markdown="1">
+
+* TOC
+{:toc}
+
+</div>{: .float-right }
+
+Voici enfin la suite et fin de ma série d'articles visant à utiliser une vielle manette à la place d'une manette de Xbox 360 (sous un PC Linux).
+
+Vraiment désolé pour le délai de publication de cet article : il était pourtant presque prêt mais je n'avais pas pris le temps de le publier 😕.
+
+Pour rappel, il m'a fallu envisager 3 techniques pour parvenir à mes fins :
+1. L'utilisation de `controllermap` pour un jeu SDL ([voir article](../../../2020/07/05/sdl-controllermap.html))
+1. Le mapping des touches avec `systemd-udev` ([voir article](../../../2020/07/22/systemd-udev.html))
+1. L'émulation d'une manette en espace utilisateur avec `ubox360` ([article ci-dessous](#présentation))
+
+## Présentation
+
+Avec la solution précédente, il est impossible de "mapper" des boutons sur les "triggers" de la manette Xbox 360.
+En effet, je souhaite faire correspondre les 2 boutons présents sous la manette aux axes des triggers de la manette Xbox.
+
+Ma solution a été de développer un programme:
+1. lisant les événements de ma manette (input device `/dev/input/event11`)
+1. faisant la conversion via un fichier de mapping au format SDL (fichier fourni par `controllermap`)
+1. écrivant les événements dans un nouveau "input device" virtuel (utilisation du driver Linux `uinput`)
+
+J'ai nommé ce programme `ubox360` (le "u" indiquant l'émulation utilisateur).
+
+## Installation de "ubox360"
+
+`ubox360` est un script python.
+Le plus simple est de l'installer via pip:
+
+```bash
+pip install ubox360
+```
+
+Avant d'exécuter `ubox360`, il est tout d'abord nécessaire de charger le driver `uinput`:
+
+```bash
+modprobe uinput
+```
+
+... mais il faut également effectuer une configuration des permissions.
+En effet:
+- `ubox360` doit pouvoir accéder à `/dev/uinput`
+- `ubox360` doit pouvoir créer un nouveau périphérique dans `/dev/input`
+- `ubox360` doit accéder à `/dev/input/event11` (input device de la manette) mais le jeux ne devrait pas y avoir accès afin d'éviter de lire les événements 2 fois (événements de la vraie manette + événements de la manette émulée)
+
+Afin d'avoir une configuration pérenne, je propose de configurer votre machine comme dans la section suivante.
+
+## Configuration de "ubox360"
+
+Avec votre éditeur texte favoris, taper les commandes suivantes :
+
+```bash
+# Ajouter un nouveau groupe pour /dev/uinput
+sudo groupadd --system uinput
+
+# Affecter ce groupe à /dev/uinput
+sudo VOTRE_EDITEUR_FAVORIS /etc/udev/rules.d/99-uinput.rules
+# Une fois dans l'éditeur, copier/coller cette ligne (sans le commentaire):
+# SUBSYSTEM=="misc", KERNEL=="uinput", GROUP="uinput", MODE="0660"
+
+# Mettre à jour les permissions de uinput
+sudo udevadm trigger /dev/uinput
+
+# Éviter que votre utilisateur puisse lire les événements de la manette
+sudo VOTRE_EDITEUR_FAVORIS /etc/udev/rules.d/70.1-uaccess.rules
+# Une fois dans l'éditeur, copier/coller cette ligne (sans le commentaire):
+# SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="?*", ATTRS{idVendor}=="0458", ATTRS{idProduct}=="100a", TAG-="uaccess"
+```
+
+Rebrancher la manette.
+
+## Lancer "ubox360"
+
+Ici nous utilisons `runuser` afin de lancer le programme `ubox360` avec les bons groupes :
+
+```bash
+sudo runuser --user=$USER --group=$USER --supp-group=input --supp-group=uinput -- ubox360 --controllerdb /PATH/TO/gamecontrollerdb.txt
+```
+
+Cette dernière commande devrait afficher quelque chose comme :
+```
+Info: Adding a new gamepad mapping:
+  ,-- device /dev/input/event11, name "HID 0458:100a", phys "usb-0000:00:14.0-9/input0"
+  '-> device /dev/input/event21, name "ubox360", phys "py-evdev-uinput"
+```
+
+Le périphérique d'entrées `/dev/input/event21` a donc été créé et va retourner (après application du mapping) les entrées lues sur `/dev/input/event11`.
+
+Vous pouvez vérifier les permissions:
+- `/dev/input/event11` est lisible par le groupe `uinput` seulement, et donc pas par n'importe quel utilisateur
+- `/dev/input/event21` est lisible par le groupe `input`, et donc par n'importe quel utilisateur classique et donc par votre jeux
+
+À vous de jouer !
+
+## Ressources (en anglais)
+
+- Projet ubox360 : <https://gitlab.com/albinou/python-ubox360>
