@@ -5,6 +5,4 @@
 layout: home
 ---
 
-Patience, j'ai ouvert ce blog en août 2017. Les articles vont arriver doucement :)
-
-Voici les premiers articles :
+Voici mes articles :
