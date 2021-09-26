@@ -10,7 +10,7 @@ layout: default
         {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
         {% assign date_english = page.date | date: date_format %}
         {% include date-french.html %}
-        {{ date_french }}
+        {{ date_french | capitalize }}
       </time>
       {% if page.author %}
         • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>
