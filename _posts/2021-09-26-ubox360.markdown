@@ -16,8 +16,8 @@ Voici enfin la suite et fin de ma série d'articles visant à utiliser une viell
 Vraiment désolé pour le délai de publication de cet article : il était pourtant presque prêt mais je n'avais pas pris le temps de le publier 😕.
 
 Pour rappel, il m'a fallu envisager 3 techniques pour parvenir à mes fins :
-1. L'utilisation de `controllermap` pour un jeu SDL ([voir article](../../../2020/07/05/sdl-controllermap.html))
-1. Le mapping des touches avec `systemd-udev` ([voir article](../../../2020/07/22/systemd-udev.html))
+1. L'utilisation de `controllermap` pour un jeu SDL ([voir l'article](../../../2020/07/05/sdl-controllermap.html))
+1. Le mapping des touches avec `systemd-udev` ([voir l'article](../../../2020/07/22/systemd-udev.html))
 1. L'émulation d'une manette en espace utilisateur avec `ubox360` ([article ci-dessous](#présentation))
 
 ## Présentation

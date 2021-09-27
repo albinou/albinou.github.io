@@ -28,7 +28,7 @@ Il m'a fallu envisager 3 techniques différentes afin de parvenir à mes fins.
 Je vous propose ici une série de 3 articles dans lesquels j'évoque :
 1. L'utilisation de `controllermap` pour un jeu SDL ([article ci-dessous](#configuration-sdl))
 1. Le mapping des touches avec `systemd-udev` ([voir l'article](../../../2020/07/22/systemd-udev.html))
-1. L'émulation d'une manette en espace utilisateur avec `ubox360` (article à venir)
+1. L'émulation d'une manette en espace utilisateur avec `ubox360` ([voir l'article](../../../2021/09/26/ubox360.html))
 
 Après un aperçu de la manette Xbox 360, voici la première technique utilisant `controllermap`.
 
