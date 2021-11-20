@@ -209,14 +209,14 @@ Je détaille ici comment faire avec systemd.
     [Service]
     User=albinou
     Group=albinou
-    WorkingDirectory=/home/albinou/src/amapola
+    WorkingDirectory=/path/to/workingdir
     Environment="LANG=fr_FR.UTF-8"
     ExecStart=/usr/local/bin/framadatectl --config /path/to/config.yaml job warn
     
     [Install]
     WantedBy=basic.target
     ```
-1. Créer un fichier timer avec le même nom (`/etc/systemd/system/amapola-warn.timer`) :
+1. Créer un fichier timer avec le même nom (`/etc/systemd/system/amap-warn.timer`) :
     ```
     [Unit]
     Description=Run Amap warn cron job every Monday at 11:42 am
