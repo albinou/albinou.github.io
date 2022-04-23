@@ -7,6 +7,6 @@ https://blog.kauff.org
 
 ## Build locally
 
-    shell> bundler config set path .bundler
-    shell> bundle install
-    shell> bundle exec serve --drafts --future
+    shell> bundle-2.7 config set --local path 'vendor/bundle'
+    shell> bundle-2.7 install
+    shell> bundle-2.7 exec jekyll serve --drafts --future
