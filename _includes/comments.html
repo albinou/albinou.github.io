@@ -20,9 +20,12 @@
           {% include comment.html index=index replying_to=replying_to avatar=avatar email=email name=name url=url date=date message=message %}
         {% endfor %}
       </div>
+      <p>⚠️ 👨‍‍🔧 - Nouveaux commentaires temporairement désactivés en raison du SPAM.</p>
       <!-- End static comments -->
     {% endif %}
 
-    {% include comment-form.html %}
+    {% if false %}
+      {% include comment-form.html %}
+    {% endif %}
   {% endif %}
 </div>
